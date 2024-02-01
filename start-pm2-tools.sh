@@ -21,7 +21,7 @@ declare -a services=(
 
 # Ensure script is run by dock_user (running as another user will end the current pm2 process)
 if [[ "$(whoami)" != "dock_user" ]]; then
-    echo "This script can only be run by the user 'dock_user'."
+    echo "This script should only be run by the user 'dock_user'."
     exit 1
 fi
 
@@ -112,4 +112,5 @@ if [[ "$start_services" == "true" ]]; then
     done
 else
     echo "Use --start option to start or update services."
+    show_help
 fi
