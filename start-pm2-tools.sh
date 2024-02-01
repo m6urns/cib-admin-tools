@@ -19,7 +19,7 @@ declare -a services=(
     "MyDockDB Frontend:/opt/web/RoxyFinalProject/Docking_project_frontend:pm2 start npm --name=mydockdb -- run start"
 )
 
-# Ensure script is run by dock_user
+# Ensure script is run by dock_user (running as another user will end the current pm2 process)
 if [[ "$(whoami)" != "dock_user" ]]; then
     echo "This script can only be run by the user 'dock_user'."
     exit 1
@@ -29,6 +29,7 @@ fi
 show_help() {
     echo "Usage: $0 [OPTION]"
     echo "Options:"
+    echo "  --start     Start or update the services listed."
     echo "  --dry-run   Simulate the actions without making any changes."
     echo "  --help      Display this help and exit."
     echo "  --info      List all services that can be started or updated by this script along with their locations and startup options."
@@ -68,12 +69,17 @@ start_service() {
     echo "-----------------------------------"
 }
 
-# Initialize dry_run flag
+# Initialize flags
 dry_run="false"
+start_services="false"
 
 # Parse command-line options
 while [[ "$#" -gt 0 ]]; do
     case $1 in
+        --start)
+            start_services="true"
+            shift # Remove --start from processing
+            ;;
         --dry-run)
             dry_run="true"
             shift # Remove --dry-run from processing
@@ -98,10 +104,12 @@ if [[ "$dry_run" == "true" ]]; then
     echo "Running in dry-run mode. No changes will be made."
 fi
 
-# Start/update services if dry-run is not the only option provided
-if [[ "$dry_run" == "false" || "$#" -eq 0 ]]; then
+# Start/update services if --start option is provided
+if [[ "$start_services" == "true" ]]; then
     for service in "${services[@]}"; do
         IFS=":" read -r name location command <<< "$service"
         start_service "$name" "$location" "$command"
     done
+else
+    echo "Use --start option to start or update services."
 fi
