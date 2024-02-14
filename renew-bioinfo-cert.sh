@@ -9,3 +9,6 @@ bash -c "cat /etc/letsencrypt/live/bioinfocore.usu.edu/fullchain.pem /etc/letsen
 # Restart haproxy
 systemctl restart haproxy
 
+# Installed in root crontab
+# 0 0 1 * * bash /home/dock_user/cib-admin-tools/renew-bioinfo-cert.sh
+
