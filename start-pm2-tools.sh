@@ -6,6 +6,7 @@ declare -a services=(
     "KBLDB:/opt/internal/kbldb:pm2 start npm --name=kbldb -- run start"
     "Beautyfile:/opt/internal/beautyfile:pm2 start npm server.config.json"
     "PSC:/opt/internal/beautyfile:pm2 start npm psc.config.json"
+    "Publications:/opt/internal/beautyfile:pm2 start npm pub.config.json"
     "HuCoPIA Backend:/home/dock_user/web/hbe/:pm2 start npm --name=hbe -- run start"
     "HuCoPIA Frontend:/home/dock_user/web/hucopia/:pm2 start npm --name=hucopia -- run local"
     "HPInet Backend:/home/dock_user/web/hpinetdb/hpinetbackend/:pm2 start npm --name=hpinetbackend -- run start"
